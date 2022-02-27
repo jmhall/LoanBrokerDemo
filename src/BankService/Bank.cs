@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using ExternalBankService.Messages;
+using BankService.Messages;
 
-namespace ExternalBankService
+namespace BankService
 {
-    public class ExternalBankQuoteService : IExternalBankQuoteService
+    public class Bank : IBank
     {
         public string BankName { get; }
         public double InterestRate { get; }
@@ -14,7 +14,7 @@ namespace ExternalBankService
         private Random _random = new Random();
 
         
-        public ExternalBankQuoteService(string bankName, double interestRate, int maxLoanTerm)
+        public Bank(string bankName, double interestRate, int maxLoanTerm)
         {
             if (string.IsNullOrWhiteSpace(bankName))
             {
@@ -26,27 +26,21 @@ namespace ExternalBankService
             MaxLoanTerm = maxLoanTerm;
         }
 
-        public async Task<ExternalBankQuoteReply> BuildReply(ExternalBankQuoteRequest request)
+        public async Task<BankQuoteReply> BuildReply(BankQuoteRequest request)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            if (string.IsNullOrEmpty(request.RequestId))
+            if (string.IsNullOrEmpty(request.LoanQuoteId))
             {
-                throw new ArgumentException("request.RequestId cannot be null or empty");
+                throw new ArgumentException("LoanQuoteId cannot be null or empty");
             }
 
-            if (string.IsNullOrEmpty(request.BankQuoteId))
+            var bankQuoteReply = new BankQuoteReply()
             {
-                throw new ArgumentException("request.BankQuoteId cannot be null or empty");
-            }
-
-            var bankQuoteReply = new ExternalBankQuoteReply()
-            {
-                RequestId = request.RequestId,
-                BankQuoteId = request.BankQuoteId
+                LoanQuoteId = request.LoanQuoteId
             };
             
             if (request.LoanTerm <= MaxLoanTerm)
@@ -62,7 +56,7 @@ namespace ExternalBankService
                 bankQuoteReply.InterestRate = 0.0;
                 bankQuoteReply.ErrorCode = 1;
             }
-            bankQuoteReply.AssignedQuoteId = $"{BankName}-{Guid.NewGuid()}";
+            bankQuoteReply.BankQuoteId = $"{BankName}-{Guid.NewGuid()}";
 
             if (MaxDelaySeconds > 0)
             {

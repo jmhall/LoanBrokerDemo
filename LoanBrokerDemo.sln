@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalBankService", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankQuotesService", "src\BankQuotesService\BankQuotesService.csproj", "{9F0FBC41-47BC-4FBC-95C9-3FD0825796A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalBankService.Messages", "src\ExternalBankService.Messages\ExternalBankService.Messages.csproj", "{F838AAA0-925A-4441-89F1-9D09C75DBAEB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalBankService.Tests", "tests\ExternalBankService.Tests\ExternalBankService.Tests.csproj", "{DC87F01E-990E-4CE2-9C2D-B58877D37A5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanBrokerService", "src\LoanBrokerService\LoanBrokerService.csproj", "{247D47BF-3164-4E33-8C61-603D3D0C934B}"
@@ -34,6 +32,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{27763CAC-34CD-4348-AE6A-F237FB449613}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankService.Tests", "tests\BankService.Tests\BankService.Tests.csproj", "{4F6C40FE-65F1-4657-B573-6EFB90167516}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankService.Messages", "src\BankService.Messages\BankService.Messages.csproj", "{4801D0BF-ACFD-4E95-B6DE-1D7C947BB3D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,10 +60,6 @@ Global
 		{9F0FBC41-47BC-4FBC-95C9-3FD0825796A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F0FBC41-47BC-4FBC-95C9-3FD0825796A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F0FBC41-47BC-4FBC-95C9-3FD0825796A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F838AAA0-925A-4441-89F1-9D09C75DBAEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F838AAA0-925A-4441-89F1-9D09C75DBAEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F838AAA0-925A-4441-89F1-9D09C75DBAEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F838AAA0-925A-4441-89F1-9D09C75DBAEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC87F01E-990E-4CE2-9C2D-B58877D37A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC87F01E-990E-4CE2-9C2D-B58877D37A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC87F01E-990E-4CE2-9C2D-B58877D37A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -100,9 +96,14 @@ Global
 		{4F6C40FE-65F1-4657-B573-6EFB90167516}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F6C40FE-65F1-4657-B573-6EFB90167516}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F6C40FE-65F1-4657-B573-6EFB90167516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4801D0BF-ACFD-4E95-B6DE-1D7C947BB3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4801D0BF-ACFD-4E95-B6DE-1D7C947BB3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4801D0BF-ACFD-4E95-B6DE-1D7C947BB3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4801D0BF-ACFD-4E95-B6DE-1D7C947BB3D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BEE57044-36DC-47CC-9CE9-6E974E4DB2B3} = {B18AC88E-F04E-43E8-B1F1-14AD1143D7F0}
 		{4F6C40FE-65F1-4657-B573-6EFB90167516} = {27763CAC-34CD-4348-AE6A-F237FB449613}
+		{4801D0BF-ACFD-4E95-B6DE-1D7C947BB3D4} = {B18AC88E-F04E-43E8-B1F1-14AD1143D7F0}
 	EndGlobalSection
 EndGlobal

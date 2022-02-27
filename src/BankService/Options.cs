@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace ExternalBankService
+namespace BankService
 {
     public class Options
     {
