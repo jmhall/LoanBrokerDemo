@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using CreditBureauService.Messages;
+using CreditBureau.Messages;
 using NServiceBus;
 using NServiceBus.Logging;
 
-namespace CreditBureauService
+namespace CreditBureau.Endpoint
 {
     public class CreditBureauRequestHandler : IHandleMessages<CreditBureauRequest>
     {
@@ -17,13 +17,14 @@ namespace CreditBureauService
             CreditBureau = creditBureau ?? throw new ArgumentNullException(nameof(creditBureau));
         }
 
-        public Task Handle(CreditBureauRequest message, IMessageHandlerContext context)
+        public async Task Handle(CreditBureauRequest message, IMessageHandlerContext context)
         {
-            _log.Info($"Received message, RequestId: {message.RequestId}");
+            _log.Info($"Received message, LoanQuoteId: {message.LoanQuoteId}");
 
             // Send to credit bureau service
+            var reply = await CreditBureau.GetCreditScore(message.Ssn);
 
-            return Task.CompletedTask;
+            return;
         }
     }
 }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanTestClient", "LoanTestClient\LoanTestClient.csproj", "{302AE94B-1649-42F0-B632-7D0EB026158D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests\LoanTestClient", "tests\LoanTestClient\LoanTestClient.csproj", "{302AE94B-1649-42F0-B632-7D0EB026158D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankQuotesService.Messages", "src\BankQuotesService.Messages\BankQuotesService.Messages.csproj", "{C37FCB15-A18D-4AA8-B407-60C88BFC66B9}"
 EndProject
@@ -19,9 +19,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanBrokerService.Messages"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankQuotesService.Tests", "tests\BankQuotesService.Tests\BankQuotesService.Tests.csproj", "{B11C0BC0-440B-43D5-BED6-CD25C0FEA4B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreditBureauService.Messages", "src\CreditBureauService.Messages\CreditBureauService.Messages.csproj", "{F99A368D-4C60-4198-9437-3FBE8A1CF528}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreditBureau.Messages", "src\CreditBureau.Messages\CreditBureau.Messages.csproj", "{F99A368D-4C60-4198-9437-3FBE8A1CF528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreditBureauService", "src\CreditBureauService\CreditBureauService.csproj", "{CE31D39B-B893-4C08-B3BE-7F698772F637}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreditBureau.Endpoint", "src\CreditBureau.Endpoint\CreditBureau.Endpoint.csproj", "{CE31D39B-B893-4C08-B3BE-7F698772F637}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreditBureauService.Tests", "tests\CreditBureauService.Tests\CreditBureauService.Tests.csproj", "{F79010AE-6570-4FA7-AA4E-61724D6EA6A0}"
 EndProject

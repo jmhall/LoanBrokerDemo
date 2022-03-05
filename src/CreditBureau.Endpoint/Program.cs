@@ -5,7 +5,6 @@ using NServiceBus.Logging;
 using CommandLine;
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
-using CreditBureauService.Messages;
 
 namespace CreditBureauService
 {

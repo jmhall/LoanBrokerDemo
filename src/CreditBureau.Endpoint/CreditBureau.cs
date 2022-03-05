@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace CreditBureauService
+namespace CreditBureau.Endpoint
 {
     public class CreditBureau : ICreditBureau
     {

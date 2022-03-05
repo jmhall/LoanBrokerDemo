@@ -1,10 +1,10 @@
 ﻿using NServiceBus;
 
-namespace CreditBureauService.Messages
+namespace CreditBureau.Messages
 {
     public class CreditBureauRequest : ICommand
     {
-        public string RequestId { get; set; } = string.Empty;
+        public string LoanQuoteId { get; set; } = string.Empty;
         public int Ssn { get; set; }
     }
 }
