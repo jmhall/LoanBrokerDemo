@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace BankService
+namespace Bank.Endpoint
 {
     public class Options
     {

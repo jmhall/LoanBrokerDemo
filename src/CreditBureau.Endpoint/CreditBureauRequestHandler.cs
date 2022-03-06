@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CreditBureau.Messages;
 using NServiceBus;
@@ -20,9 +21,25 @@ namespace CreditBureau.Endpoint
         public async Task Handle(CreditBureauRequest message, IMessageHandlerContext context)
         {
             _log.Info($"Received message, LoanQuoteId: {message.LoanQuoteId}");
+            var sw = new Stopwatch();
+            sw.Start();
 
             // Send to credit bureau service
-            var reply = await CreditBureau.GetCreditScore(message.Ssn);
+            int creditScore = await CreditBureau.GetCreditScore(message.Ssn);
+            int creditHistoryLength = await CreditBureau.GetCreditHistoryLength(message.Ssn);
+
+            var reply = new CreditBureauReply()
+            {
+                LoanQuoteId = message.LoanQuoteId,
+                CreditScore = creditScore,
+                HistoryLength = creditHistoryLength
+            };
+
+            sw.Stop();
+
+            _log.Info($"Sending CreditBureauReply for LoanQuoteId: {message.LoanQuoteId}, processing time: {sw.ElapsedMilliseconds}ms");
+
+            await context.Reply(reply);
 
             return;
         }

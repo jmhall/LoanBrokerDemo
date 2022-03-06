@@ -6,39 +6,39 @@ using NServiceBus;
 using System.Threading.Tasks;
 using System;
 
-namespace ExternalBankService
+namespace Bank.Endpoint
 {
     static class Program
     {
-        static ILog Log = LogManager.GetLogger("Program");
+        static ILog Log = LogManager.GetLogger("Bank.Endpoint");
 
         static async Task Main(string[] args)
         {
-            Console.Title = "ExternalBankService";
 
             _ = await Parser.Default.ParseArguments<Options>(args)
-                .WithParsedAsync(RunAndReturnExitCode);
+                .WithParsedAsync(RunAsync);
         }
 
-        static async Task<int> RunAndReturnExitCode(Options options)
+        static async Task<int> RunAsync(Options options)
         {
             Log.Info($"Starting bank {options.BankName}, rate: {options.Rate}, max term: {options.MaxTerm}, concurrency: {options.Concurrency}");
+            Console.Title = options.BankName;
             var epConfig = new EndpointConfiguration(options.BankName);
 
-            IExternalBankQuoteService bankQuoteService = new ExternalBankQuoteService(options.BankName, options.Rate, options.MaxTerm)
+            IBank bank = new Bank(options.BankName, options.Rate, options.MaxTerm)
             {
                 MaxDelaySeconds = 11 
             };
 
             epConfig.UseContainer(new AutofacServiceProviderFactory(containerBuilder =>
             {
-                containerBuilder.RegisterInstance(bankQuoteService);
+                containerBuilder.RegisterInstance(bank);
             }));
 
             var transport = epConfig.UseTransport<LearningTransport>();
             epConfig.LimitMessageProcessingConcurrencyTo(options.Concurrency); 
 
-            var epInstance = await Endpoint.Start(epConfig).ConfigureAwait(false);
+            var epInstance = await NServiceBus.Endpoint.Start(epConfig).ConfigureAwait(false);
 
             Console.WriteLine("Press Enter to exit");
             Console.ReadLine();

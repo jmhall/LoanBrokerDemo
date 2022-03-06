@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace CreditBureauService
+namespace CreditBureau.Endpoint
 {
     public class Options
     {

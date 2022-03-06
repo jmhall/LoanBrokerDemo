@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace CreditBureau
+namespace CreditBureau.Endpoint
 {
     public interface ICreditBureau
     {

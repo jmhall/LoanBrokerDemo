@@ -1,6 +1,7 @@
+
 using NUnit.Framework;
 
-namespace CreditBureauService.Tests
+namespace CreditBureau.Endpoint.Tests
 {
     public class CreditBureauTests
     {

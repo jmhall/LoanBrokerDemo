@@ -15,6 +15,7 @@
     <!-- <ProjectReference Include="..\src\BankQuotesService\BankQuotesService.csproj" /> -->
     <!-- <ProjectReference Include="..\src\BankQuotesService.Messages\BankQuotesService.Messages.csproj" /> -->
     <ProjectReference Include="..\..\src\CreditBureau.Messages\CreditBureau.Messages.csproj" />
+    <ProjectReference Include="..\..\src\Bank.Messages\Bank.Messages.csproj" />
   </ItemGroup>
 
 </Project>

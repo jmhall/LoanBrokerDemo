@@ -6,15 +6,15 @@ using CommandLine;
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
 
-namespace CreditBureauService
+namespace CreditBureau.Endpoint
 {
     static class Program
     {
-        private static ILog _log = LogManager.GetLogger("CreditBureauService.Program");
+        private static ILog _log = LogManager.GetLogger("CreditBureau.Endpoint.Program");
 
         static async Task Main(string[] args)
         {
-            Console.Title = "CreditBureauService";
+            Console.Title = "CreditBureau.Endpoint";
 
             _ = await Parser.Default.ParseArguments<Options>(args)
                 .WithParsedAsync(RunAndReturnExitCode);
@@ -23,7 +23,7 @@ namespace CreditBureauService
         static async Task<int> RunAndReturnExitCode(Options options)
         {
             _log.Info($"Starting credit bureau service, concurrency: {options.Concurrency}");
-            var epConfig = new EndpointConfiguration("CreditBureauService");
+            var epConfig = new EndpointConfiguration("CreditBureau.Endpoint");
 
             ICreditBureau creditBureau = new CreditBureau()
             {
@@ -36,7 +36,7 @@ namespace CreditBureauService
             }));
 
             var transport = epConfig.UseTransport<LearningTransport>();
-            var epInstance = await Endpoint.Start(epConfig).ConfigureAwait(false);
+            var epInstance = await NServiceBus.Endpoint.Start(epConfig).ConfigureAwait(false);
 
             Console.WriteLine("Press Enter to exit");
             Console.ReadLine();

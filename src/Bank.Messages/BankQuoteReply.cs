@@ -1,6 +1,6 @@
 using NServiceBus;
 
-namespace BankService.Messages
+namespace Bank.Messages
 {
     public class BankQuoteReply : IMessage
     {

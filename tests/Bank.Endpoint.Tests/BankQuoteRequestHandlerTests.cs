@@ -4,7 +4,7 @@ using NServiceBus.Testing;
 using System.Threading.Tasks;
 using ExternalBankService.Messages;
 
-namespace ExternalBankService.Tests
+namespace Bank.Endpoint.Tests
 {
     public class RequestBankQuoteHandlerTests
     {

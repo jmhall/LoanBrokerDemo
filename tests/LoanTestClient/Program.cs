@@ -1,7 +1,8 @@
-﻿// using BankQuotesService.Messages;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Bank.Messages;
 using CreditBureau.Messages;
 using NServiceBus;
 using NServiceBus.Features;
@@ -11,11 +12,17 @@ namespace LoanTestClient
 {
     class Program
     {
-        private const string CreditBureauEndpointName = "CreditBureau";
-        
+        private const string CreditBureauEndpointName = "CreditBureau.Endpoint";
+
         static ILog Log = LogManager.GetLogger<Program>();
         static Random Random = new Random();
         static int[] LoanTerms = { 3, 5, 10, 15, 20, 30 };
+        static Dictionary<string, string> BankEndpoints = new Dictionary<string, string>()
+        {
+            {"B1", "Bank1"},
+            {"B2", "Bank2"},
+            {"B3", "Bank3"},
+        };
 
         static async Task Main()
         {
@@ -26,7 +33,6 @@ namespace LoanTestClient
             var transport = epConfig.UseTransport<LearningTransport>();
 
             var routing = transport.Routing();
-            // routing.RouteToEndpoint(typeof(RequestBankQuotes), "BankQuoteService");
             routing.RouteToEndpoint(typeof(CreditBureauRequest), CreditBureauEndpointName);
 
             var epInstance = await Endpoint.Start(epConfig).ConfigureAwait(false);
@@ -40,7 +46,6 @@ namespace LoanTestClient
         {
             string loanQuoteId = Guid.NewGuid().ToString();
             Log.Info($"Generating credit bureau request: {loanQuoteId}");
-            int ssn = GenerateSsn();
 
             var cbReq = new CreditBureauRequest()
             {
@@ -53,6 +58,34 @@ namespace LoanTestClient
             return;
         }
 
+        private static async Task SendBankQuoteRequest(IEndpointInstance epInstance, string bankEndpoint)
+        {
+            string loanQuoteId = Guid.NewGuid().ToString();
+            Log.Info($"Generating bank quote request for '{bankEndpoint}': {loanQuoteId}");
+            BankQuoteRequest bankQuoteRequest = GenerateBankQuoteRequest(loanQuoteId);
+
+            var sendOptions = new SendOptions();
+            sendOptions.SetDestination(bankEndpoint);
+            await epInstance.Send(bankQuoteRequest, sendOptions);
+
+            return;
+        }
+
+        private static BankQuoteRequest GenerateBankQuoteRequest(string loanQuoteId)
+        {
+            var bankQuoteRequest = new BankQuoteRequest()
+            {
+                LoanQuoteId = loanQuoteId,
+                Ssn = GenerateSsn(),
+                CreditScore = 500 + Random.Next(400),
+                HistoryLength = Random.Next(80),
+                LoanAmount = Random.Next(100),
+                LoanTerm = LoanTerms[Random.Next(LoanTerms.Length)]
+            };
+
+            return bankQuoteRequest;
+        }
+ 
         private static int GenerateSsn()
         {
             int ssnSuffix = Random.Next(9999);
@@ -63,14 +96,18 @@ namespace LoanTestClient
         {
             while (true)
             {
-                var menuList = new List<string>() 
-                {
-                    "'CB' to test credit bureau",
-                    "'Q' to quit",
-                };
-                Log.Info("Menu:" + Environment.NewLine + string.Join(Environment.NewLine, menuList));
+                var menuList = new List<string>();
+
+                menuList.AddRange(BankEndpoints.Select(be => 
+                    $"'{be.Key}' to test {be.Value}"
+                ));
+                menuList.Add("'CB' to test credit bureau");
+                menuList.Add("'Q' to quit");
+
+                Log.Info(Environment.NewLine + string.Join(Environment.NewLine, menuList));
                 string command = Console.ReadLine() ?? string.Empty;
-                switch (command.ToUpperInvariant())
+                string standardizedCommand = command.ToUpperInvariant();
+                switch (standardizedCommand)
                 {
                     case "CB":
                         await SendCreditBureauRequest(epInstance);
@@ -113,7 +150,14 @@ namespace LoanTestClient
                         Log.Info("Quitting");
                         return;
                     default:
-                        Log.Info("Unknown input, please try again.");
+                        if (BankEndpoints.ContainsKey(standardizedCommand))
+                        {
+                            await SendBankQuoteRequest(epInstance, BankEndpoints[standardizedCommand]);
+                        }
+                        else
+                        {
+                            Log.Info("Unknown input, please try again.");
+                        }
                         break;
                 }
             }

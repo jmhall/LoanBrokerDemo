@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="Moq" Version="4.17.1" />
     <PackageReference Include="NServiceBus.Testing" Version="7.3.0" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
@@ -17,8 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ExternalBankService\ExternalBankService.csproj" />
-    <ProjectReference Include="..\..\src\ExternalBankService.Messages\ExternalBankService.Messages.csproj" />
+    <ProjectReference Include="..\..\src\CreditBureau.Endpoint\CreditBureau.Endpoint.csproj" />
   </ItemGroup>
 
 </Project>

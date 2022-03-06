@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using BankService.Messages;
+using Bank.Messages;
 
-namespace BankService
+namespace Bank.Endpoint
 {
     public interface IBank
     {

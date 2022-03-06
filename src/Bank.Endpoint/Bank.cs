@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using BankService.Messages;
+using Bank.Messages;
 
-namespace BankService
+namespace Bank.Endpoint
 {
     public class Bank : IBank
     {
@@ -13,7 +13,6 @@ namespace BankService
 
         private Random _random = new Random();
 
-        
         public Bank(string bankName, double interestRate, int maxLoanTerm)
         {
             if (string.IsNullOrWhiteSpace(bankName))
