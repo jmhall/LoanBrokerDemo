@@ -7,7 +7,7 @@ namespace LoanTestClient
 {
     public class BankQuoteReplyHandler : IHandleMessages<BankQuoteReply>
     {
-        private static ILog _log = LogManager.GetLogger<CreditBureauReplyHandler>();
+        private static ILog _log = LogManager.GetLogger<BankQuoteReplyHandler>();
 
         public Task Handle(BankQuoteReply message, IMessageHandlerContext context)
         {

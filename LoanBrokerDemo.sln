@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6B35F7D7-87B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanBroker.Messages", "src\LoanBroker.Messages\LoanBroker.Messages.csproj", "{5C7F12B3-C9A9-457E-8DCA-CB777748C77E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanBroker.Endpoint", "src\LoanBroker.Endpoint\LoanBroker.Endpoint.csproj", "{58FF998D-1305-48AD-A861-2C5D11E1695F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,9 +48,14 @@ Global
 		{5C7F12B3-C9A9-457E-8DCA-CB777748C77E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C7F12B3-C9A9-457E-8DCA-CB777748C77E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C7F12B3-C9A9-457E-8DCA-CB777748C77E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58FF998D-1305-48AD-A861-2C5D11E1695F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58FF998D-1305-48AD-A861-2C5D11E1695F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58FF998D-1305-48AD-A861-2C5D11E1695F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58FF998D-1305-48AD-A861-2C5D11E1695F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4CBF3199-307A-4F5E-9554-AE1C0D3B30EB} = {27763CAC-34CD-4348-AE6A-F237FB449613}
 		{5C7F12B3-C9A9-457E-8DCA-CB777748C77E} = {6B35F7D7-87B4-4A8F-8964-B75A56DF699D}
+		{58FF998D-1305-48AD-A861-2C5D11E1695F} = {6B35F7D7-87B4-4A8F-8964-B75A56DF699D}
 	EndGlobalSection
 EndGlobal

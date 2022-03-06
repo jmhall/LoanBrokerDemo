@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bank.Messages;
 using CreditBureau.Messages;
+using LoanBroker.Messages;
 using NServiceBus;
 using NServiceBus.Features;
 using NServiceBus.Logging;
@@ -13,6 +14,7 @@ namespace LoanTestClient
     class Program
     {
         private const string CreditBureauEndpointName = "CreditBureau.Endpoint";
+        private const string LoanBrokerEndpointName = "LoanBroker.Endpoint";
 
         static ILog Log = LogManager.GetLogger<Program>();
         static Random Random = new Random();
@@ -34,6 +36,7 @@ namespace LoanTestClient
 
             var routing = transport.Routing();
             routing.RouteToEndpoint(typeof(CreditBureauRequest), CreditBureauEndpointName);
+            routing.RouteToEndpoint(typeof(LoanQuoteRequest), LoanBrokerEndpointName);
 
             var epInstance = await Endpoint.Start(epConfig).ConfigureAwait(false);
 
@@ -71,6 +74,30 @@ namespace LoanTestClient
             return;
         }
 
+        private static async Task SendLoanBrokerRequest(IEndpointInstance epInstance)
+        {
+            string loanQuoteId = Guid.NewGuid().ToString();
+            Log.Info($"Generating loan quote request: {loanQuoteId}");
+            LoanQuoteRequest loanQuoteRequest = GenerateLoanQuoteRequest(loanQuoteId);
+
+            await epInstance.Send(loanQuoteRequest);
+
+            return;
+        }
+
+        private static LoanQuoteRequest GenerateLoanQuoteRequest(string loanQuoteId)
+        {
+            var loanQuoteRequest = new LoanQuoteRequest()
+            {
+                LoanQuoteId = loanQuoteId,
+                Ssn = GenerateSsn(),
+                LoanAmount = Random.Next(100),
+                LoanTerm = LoanTerms[Random.Next(LoanTerms.Length)]
+            };
+
+            return loanQuoteRequest;
+        }
+
         private static BankQuoteRequest GenerateBankQuoteRequest(string loanQuoteId)
         {
             var bankQuoteRequest = new BankQuoteRequest()
@@ -102,6 +129,7 @@ namespace LoanTestClient
                     $"'{be.Key}' to test {be.Value}"
                 ));
                 menuList.Add("'CB' to test credit bureau");
+                menuList.Add("'LB' to test loan broker (full process)");
                 menuList.Add("'Q' to quit");
 
                 Log.Info(Environment.NewLine + string.Join(Environment.NewLine, menuList));
@@ -111,6 +139,9 @@ namespace LoanTestClient
                 {
                     case "CB":
                         await SendCreditBureauRequest(epInstance);
+                        break;
+                    case "LB":
+                        await SendLoanBrokerRequest(epInstance);
                         break;
                     // case ConsoleKey.F:
                     //     string fullRequestId = Guid.NewGuid().ToString();
@@ -162,6 +193,8 @@ namespace LoanTestClient
                 }
             }
         }
+
+
     }
 }
 
