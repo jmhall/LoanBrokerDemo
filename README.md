@@ -5,9 +5,9 @@ Hohpe, G., & Woolf, B. (2004). Chapter 9 - Interlude: Composed Messaging. In _En
 
 Ideas I'm exploring:
 
-Asynchronous communication using messages, queues 
-NServiceBus - https://docs.particular.net/
-C4 Model Diagrams - https://c4model.com/
+- Asynchronous communication using messages, queues 
+- NServiceBus - https://docs.particular.net/
+- C4 Model Diagrams - https://c4model.com/
 
 Other topics to explore:
 - Persisting business data to DB
