@@ -29,7 +29,7 @@ namespace Bank.Endpoint
                 throw new InvalidOperationException(errMsg);
             }
 
-            Log.Info($"Sending reply for LoanQuoteId: {reply.LoanQuoteId}, BankQuoteId: {reply.BankQuoteId}, QuoteId {reply.BankQuoteId}");
+            Log.Info($"Sending reply for LoanQuoteId: {reply.LoanQuoteId}, BankQuoteId: {reply.BankQuoteId}");
 
             await context.Reply(reply);
 

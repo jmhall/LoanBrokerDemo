@@ -1,4 +1,4 @@
-namespace BankService
+namespace BankGateway.Endpoint
 {
     public class BankLoanCriteria
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bank.Messages;
+using BankGateway.Messages;
 using CreditBureau.Messages;
 using LoanBroker.Messages;
 using NServiceBus;
@@ -15,6 +16,7 @@ namespace LoanTestClient
     {
         private const string CreditBureauEndpointName = "CreditBureau.Endpoint";
         private const string LoanBrokerEndpointName = "LoanBroker.Endpoint";
+        private const string BankGatewayEndpointName = "BankGateway.Endpoint";
 
         static ILog Log = LogManager.GetLogger<Program>();
         static Random Random = new Random();
@@ -37,6 +39,7 @@ namespace LoanTestClient
             var routing = transport.Routing();
             routing.RouteToEndpoint(typeof(CreditBureauRequest), CreditBureauEndpointName);
             routing.RouteToEndpoint(typeof(LoanQuoteRequest), LoanBrokerEndpointName);
+            routing.RouteToEndpoint(typeof(AggregatedBankQuoteRequest), BankGatewayEndpointName);
 
             var epInstance = await Endpoint.Start(epConfig).ConfigureAwait(false);
 
@@ -85,6 +88,29 @@ namespace LoanTestClient
             return;
         }
 
+        private static async Task SendAggregatedBankQuoteRequest(IEndpointInstance epInstance)
+        {
+            string loanQuoteId = Guid.NewGuid().ToString();
+            AggregatedBankQuoteRequest aggregatedBankQuoteRequest = GenerateAggregatedBankQuoteRequest(loanQuoteId);
+
+            await epInstance.Send(aggregatedBankQuoteRequest);
+
+            return;
+        }
+
+        private static AggregatedBankQuoteRequest GenerateAggregatedBankQuoteRequest(string loanQuoteId)
+        {
+            var aggBankQuoteReq = new AggregatedBankQuoteRequest()
+            {
+                LoanQuoteId = loanQuoteId,
+                Ssn = GenerateSsn(),
+                LoanAmount = Random.Next(1, 100) * 1000,
+                LoanTerm = LoanTerms[Random.Next(LoanTerms.Length)]
+            };
+            
+            return aggBankQuoteReq;
+        }
+
         private static LoanQuoteRequest GenerateLoanQuoteRequest(string loanQuoteId)
         {
             var loanQuoteRequest = new LoanQuoteRequest()
@@ -112,7 +138,7 @@ namespace LoanTestClient
 
             return bankQuoteRequest;
         }
- 
+
         private static int GenerateSsn()
         {
             int ssnSuffix = Random.Next(9999);
@@ -128,8 +154,9 @@ namespace LoanTestClient
                 menuList.AddRange(BankEndpoints.Select(be => 
                     $"'{be.Key}' to test {be.Value}"
                 ));
-                menuList.Add("'CB' to test credit bureau");
-                menuList.Add("'LB' to test loan broker (full process)");
+                menuList.Add("'C' to test credit bureau");
+                menuList.Add("'A' to test aggregated bank quote request");
+                menuList.Add("'L' to test loan broker (full process)");
                 menuList.Add("'Q' to quit");
 
                 Log.Info(Environment.NewLine + string.Join(Environment.NewLine, menuList));
@@ -137,11 +164,14 @@ namespace LoanTestClient
                 string standardizedCommand = command.ToUpperInvariant();
                 switch (standardizedCommand)
                 {
-                    case "CB":
+                    case "C":
                         await SendCreditBureauRequest(epInstance);
                         break;
-                    case "LB":
+                    case "L":
                         await SendLoanBrokerRequest(epInstance);
+                        break;
+                    case "A":
+                        await SendAggregatedBankQuoteRequest(epInstance);
                         break;
                     // case ConsoleKey.F:
                     //     string fullRequestId = Guid.NewGuid().ToString();
@@ -194,7 +224,5 @@ namespace LoanTestClient
             }
         }
 
-
     }
 }
-

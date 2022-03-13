@@ -57,7 +57,7 @@ namespace LoanBroker.Endpoint
             var aggregatedBankQuoteRequest = new AggregatedBankQuoteRequest()
             {
                 LoanQuoteId = Data.LoanQuoteId,
-                Ssn = message.Ssn,
+                Ssn = Data.LoanQuoteRequest?.Ssn ?? 0,
                 CreditScore = message.CreditScore,
                 HistoryLength = message.HistoryLength,
                 LoanAmount = Data.LoanQuoteRequest?.LoanAmount ?? 0,

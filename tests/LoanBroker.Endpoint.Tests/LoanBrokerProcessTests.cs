@@ -60,12 +60,12 @@ namespace LoanBroker.Endpoint.Tests
             {
                 CreditScore = 800,
                 HistoryLength = 20,
-                Ssn = 123
             };
             var loanQuoteRequest = new LoanQuoteRequest()
             {
                 LoanAmount = 10000,
-                LoanTerm = 15
+                LoanTerm = 15,
+                Ssn = 123
             };
             var loanBrokerProcessData = new LoanBrokerProcessData()
             {
