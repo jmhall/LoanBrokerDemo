@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using BankGateway.Messages;
 using CreditBureau.Messages;
 using LoanBroker.Messages;
 using NServiceBus;
@@ -9,9 +11,19 @@ namespace LoanBroker.Endpoint
     public class LoanBrokerProcess :
         Saga<LoanBrokerProcessData>,
         IAmStartedByMessages<LoanQuoteRequest>,
-        IHandleMessages<CreditBureauReply>
+        IHandleMessages<CreditBureauReply>,
+        IHandleTimeouts<LoanBrokerProcessTimeout>
     {
         private static ILog _log = LogManager.GetLogger<LoanBrokerProcess>();
+
+        private const int _defaultTimeoutSeconds = 30;
+
+        public int TimeoutSeconds { get; }
+
+        public LoanBrokerProcess(int timeoutSeconds = _defaultTimeoutSeconds)
+        {
+            TimeoutSeconds = timeoutSeconds;
+        }
 
         public async Task Handle(LoanQuoteRequest message, IMessageHandlerContext context)
         {
@@ -23,7 +35,13 @@ namespace LoanBroker.Endpoint
                 LoanQuoteId = message.LoanQuoteId,
                 Ssn = message.Ssn
             };
+
             await context.Send(creditBureauRequest);
+
+            // Send timeout
+            await RequestTimeout(context, 
+                TimeSpan.FromSeconds(TimeoutSeconds),
+                new LoanBrokerProcessTimeout());
 
             return;
         }
@@ -32,19 +50,37 @@ namespace LoanBroker.Endpoint
         {
             _log.Info($"Received {message.GetType().Name}, LoanQuoteId: {message.LoanQuoteId}");
 
-            _log.Info("Marking complete");
+            // Update saga
+            Data.CreditBureauReplyReceived = true;
 
-            var loanQuoteReply = new LoanQuoteReply()
+            // Generate and send AggregatedBankQuoteRequest
+            var aggregatedBankQuoteRequest = new AggregatedBankQuoteRequest()
             {
-                LoanQuoteId = message.LoanQuoteId,
+                LoanQuoteId = Data.LoanQuoteId,
+                Ssn = message.Ssn,
+                CreditScore = message.CreditScore,
+                HistoryLength = message.HistoryLength,
+                LoanAmount = Data.LoanQuoteRequest?.LoanAmount ?? 0,
+                LoanTerm = Data.LoanQuoteRequest?.LoanTerm ?? 0
             };
 
-            await ReplyToOriginator(context, loanQuoteReply);
-
-            // TODO: need to wrap 'Complete' and replying to originator in a transaction of some sort
-            MarkAsComplete();
+            await context.Send(aggregatedBankQuoteRequest);
 
             return;
+        }
+
+        public Task Timeout(LoanBrokerProcessTimeout state, IMessageHandlerContext context)
+        {
+            Data.LoanBrokerProcessTimeout = true;
+
+            CheckComplete();
+
+            return Task.CompletedTask;
+        }
+
+        private void CheckComplete()
+        {
+
         }
 
         protected override void ConfigureHowToFindSaga(SagaPropertyMapper<LoanBrokerProcessData> mapper)
@@ -54,5 +90,6 @@ namespace LoanBroker.Endpoint
             mapper.ConfigureMapping<CreditBureauReply>(msg => msg.LoanQuoteId)
                 .ToSaga(saga => saga.LoanQuoteId);
         }
+
     }
 }

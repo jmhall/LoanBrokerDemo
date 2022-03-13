@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanBroker.Messages", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanBroker.Endpoint", "src\LoanBroker.Endpoint\LoanBroker.Endpoint.csproj", "{58FF998D-1305-48AD-A861-2C5D11E1695F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanBroker.Endpoint.Tests", "tests\LoanBroker.Endpoint.Tests\LoanBroker.Endpoint.Tests.csproj", "{562D4392-3303-4761-9D07-B4590A3FCE18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankGateway.Messages", "src\BankGateway.Messages\BankGateway.Messages.csproj", "{28C50A0B-2161-445F-BD37-1D867E97FB46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,10 +56,20 @@ Global
 		{58FF998D-1305-48AD-A861-2C5D11E1695F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58FF998D-1305-48AD-A861-2C5D11E1695F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58FF998D-1305-48AD-A861-2C5D11E1695F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{562D4392-3303-4761-9D07-B4590A3FCE18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{562D4392-3303-4761-9D07-B4590A3FCE18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{562D4392-3303-4761-9D07-B4590A3FCE18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{562D4392-3303-4761-9D07-B4590A3FCE18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28C50A0B-2161-445F-BD37-1D867E97FB46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28C50A0B-2161-445F-BD37-1D867E97FB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28C50A0B-2161-445F-BD37-1D867E97FB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28C50A0B-2161-445F-BD37-1D867E97FB46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4CBF3199-307A-4F5E-9554-AE1C0D3B30EB} = {27763CAC-34CD-4348-AE6A-F237FB449613}
 		{5C7F12B3-C9A9-457E-8DCA-CB777748C77E} = {6B35F7D7-87B4-4A8F-8964-B75A56DF699D}
 		{58FF998D-1305-48AD-A861-2C5D11E1695F} = {6B35F7D7-87B4-4A8F-8964-B75A56DF699D}
+		{562D4392-3303-4761-9D07-B4590A3FCE18} = {27763CAC-34CD-4348-AE6A-F237FB449613}
+		{28C50A0B-2161-445F-BD37-1D867E97FB46} = {6B35F7D7-87B4-4A8F-8964-B75A56DF699D}
 	EndGlobalSection
 EndGlobal

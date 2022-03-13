@@ -1,4 +1,4 @@
-using CreditBureau.Messages;
+using LoanBroker.Messages;
 using NServiceBus;
 
 namespace LoanBroker.Endpoint
@@ -6,9 +6,9 @@ namespace LoanBroker.Endpoint
     public class LoanBrokerProcessData : ContainSagaData
     {
         public string LoanQuoteId { get; set; } = string.Empty;
-        public bool CreditRequestSent { get; set; }
-        public CreditBureauReply? CreditBureauReply { get; set; }
-        public bool AggregatedBankQuoteRequestSent { get; set; }
-
+        public bool CreditBureauReplyReceived { get; set; }
+        public LoanQuoteRequest? LoanQuoteRequest { get; set; }
+        public bool AggregatedBankQuoteReplyReceived { get; set; }
+        public bool LoanBrokerProcessTimeout { get; set; } = false;
     }
 }

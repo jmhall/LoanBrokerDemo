@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LoanBroker.Messages\LoanBroker.Messages.csproj" />
     <ProjectReference Include="..\CreditBureau.Messages\CreditBureau.Messages.csproj" />
+    <ProjectReference Include="..\BankGateway.Messages\BankGateway.Messages.csproj" />
   </ItemGroup>
 
 </Project>
