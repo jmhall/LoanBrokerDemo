@@ -12,9 +12,9 @@ namespace BankGateway.Endpoint
         IHandleTimeouts<BankQuoteAggregatorTimeout>
     {
         private static ILog _log = LogManager.GetLogger<BankQuoteAggregator>();
-        private readonly BankConnectionManager _bankConnectionManager;
+        private readonly IBankConnectionManager _bankConnectionManager;
 
-        public BankQuoteAggregator(BankConnectionManager bankConnectionManager)
+        public BankQuoteAggregator(IBankConnectionManager bankConnectionManager)
         {
             _bankConnectionManager = bankConnectionManager ?? throw new ArgumentNullException(nameof(bankConnectionManager));
         }

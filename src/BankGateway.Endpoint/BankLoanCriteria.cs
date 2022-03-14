@@ -2,15 +2,15 @@ namespace BankGateway.Endpoint
 {
     public class BankLoanCriteria
     {
-        public int MinLoanAmount { get; }
-        public int MinCreditScore { get; }
-        public int MinHistoryLength { get; }
+        public int LoanAmount { get; }
+        public int CreditScore { get; }
+        public int HistoryLength { get; }
 
-        public BankLoanCriteria(int minCreditScore, int minHistoryLength, int minLoanAmount)
+        public BankLoanCriteria(int creditScore, int historyLength, int loanAmount)
         {
-            MinCreditScore = minCreditScore;
-            MinHistoryLength = minHistoryLength;
-            MinLoanAmount = minLoanAmount;
+            CreditScore = creditScore;
+            HistoryLength = historyLength;
+            LoanAmount = loanAmount;
         }
     }
 }

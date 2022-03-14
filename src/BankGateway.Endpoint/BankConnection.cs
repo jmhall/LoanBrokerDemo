@@ -2,12 +2,12 @@ namespace BankGateway.Endpoint
 {
     public class BankConnection : IBankConnection
     {
-        private readonly BankLoanCriteria _loanCriteria;
+        private readonly BankLoanCriteria _minimumLoanCriteria;
 
         public string BankName { get; }
         public string EndpointName { get; }
 
-        public BankConnection(string bankName, string endpointName, BankLoanCriteria loanCriteria)
+        public BankConnection(string bankName, string endpointName, BankLoanCriteria minimumLoanCriteria)
         {
             if (string.IsNullOrWhiteSpace(bankName))
             {
@@ -20,14 +20,19 @@ namespace BankGateway.Endpoint
             }
             BankName = bankName;
             EndpointName = endpointName;
-            _loanCriteria = loanCriteria ?? throw new System.ArgumentNullException(nameof(loanCriteria));
+            _minimumLoanCriteria = minimumLoanCriteria ?? throw new System.ArgumentNullException(nameof(minimumLoanCriteria));
         }
 
-        public bool CanHandleLoanRequest(int creditScore, int historyLength, int loanAmount)
+        public bool CanHandleLoanRequest(BankLoanCriteria bankLoanCriteria)
         {
-            return creditScore >= _loanCriteria.MinCreditScore && 
-                historyLength >= _loanCriteria.MinHistoryLength && 
-                loanAmount >= _loanCriteria.MinLoanAmount;
+            if (bankLoanCriteria is null)
+            {
+                throw new ArgumentNullException(nameof(bankLoanCriteria));
+            }
+
+            return bankLoanCriteria.CreditScore >= _minimumLoanCriteria.CreditScore && 
+                bankLoanCriteria.HistoryLength >= _minimumLoanCriteria.HistoryLength && 
+                bankLoanCriteria.LoanAmount >= _minimumLoanCriteria.LoanAmount;
         }
     }
 }

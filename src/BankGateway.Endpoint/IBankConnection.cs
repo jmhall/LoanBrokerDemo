@@ -5,6 +5,6 @@ namespace BankGateway.Endpoint
         public string BankName {get;}
         public string EndpointName {get;}
 
-        bool CanHandleLoanRequest(int creditScore, int historyLength, int loanAmount);
+        bool CanHandleLoanRequest(BankLoanCriteria bankLoanCriteria);
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace BankService.Tests
+namespace BankGateway.Endpoint.Tests
 {
     public class BankConnectionTests
     {
@@ -11,7 +11,6 @@ namespace BankService.Tests
             var testCriteria = new BankLoanCriteria(0, 0, 0);
             Assert.Throws<ArgumentException>(() => _ = new BankConnection("", "test", testCriteria));
             Assert.Throws<ArgumentException>(() => _ = new BankConnection("test", "", testCriteria));
-            Assert.Throws<ArgumentException>(() => _ = new BankConnection("", "", null));
             Assert.DoesNotThrow(() => _ = new BankConnection("test", "test", testCriteria));
         }
 
@@ -27,7 +26,8 @@ namespace BankService.Tests
         {
             var testCriteria = new BankLoanCriteria(1, 1, 1);
             var bankConnection = new BankConnection("Test", "Test", testCriteria);
-            Assert.AreEqual(expectedResult, bankConnection.CanHandleLoanRequest(creditScore, historyLength, loanAmount));
+            var bankLoanCriteria = new BankLoanCriteria(creditScore, historyLength, loanAmount);
+            Assert.AreEqual(expectedResult, bankConnection.CanHandleLoanRequest(bankLoanCriteria));
         }
     }
 }

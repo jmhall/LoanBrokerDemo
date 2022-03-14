@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankGateway.Messages", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankGateway.Endpoint", "src\BankGateway.Endpoint\BankGateway.Endpoint.csproj", "{8C83FCFE-FFFB-4A89-BBC5-AA7D2D06BB23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankGateway.Endpoint.Tests", "tests\BankGateway.Endpoint.Tests\BankGateway.Endpoint.Tests.csproj", "{486BA7DC-CB29-402D-A5DA-176B0ECE30C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{8C83FCFE-FFFB-4A89-BBC5-AA7D2D06BB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C83FCFE-FFFB-4A89-BBC5-AA7D2D06BB23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C83FCFE-FFFB-4A89-BBC5-AA7D2D06BB23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{486BA7DC-CB29-402D-A5DA-176B0ECE30C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486BA7DC-CB29-402D-A5DA-176B0ECE30C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486BA7DC-CB29-402D-A5DA-176B0ECE30C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486BA7DC-CB29-402D-A5DA-176B0ECE30C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4CBF3199-307A-4F5E-9554-AE1C0D3B30EB} = {27763CAC-34CD-4348-AE6A-F237FB449613}
@@ -78,5 +84,6 @@ Global
 		{562D4392-3303-4761-9D07-B4590A3FCE18} = {27763CAC-34CD-4348-AE6A-F237FB449613}
 		{28C50A0B-2161-445F-BD37-1D867E97FB46} = {6B35F7D7-87B4-4A8F-8964-B75A56DF699D}
 		{8C83FCFE-FFFB-4A89-BBC5-AA7D2D06BB23} = {6B35F7D7-87B4-4A8F-8964-B75A56DF699D}
+		{486BA7DC-CB29-402D-A5DA-176B0ECE30C8} = {27763CAC-34CD-4348-AE6A-F237FB449613}
 	EndGlobalSection
 EndGlobal

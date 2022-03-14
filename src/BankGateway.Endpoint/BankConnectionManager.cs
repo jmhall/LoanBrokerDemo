@@ -1,6 +1,6 @@
 namespace BankGateway.Endpoint
 {
-    public class BankConnectionManager
+    public class BankConnectionManager : IBankConnectionManager
     {
         protected IList<IBankConnection> banks;
         // {
@@ -19,14 +19,14 @@ namespace BankGateway.Endpoint
             banks = bankList;
         }
 
-        public IList<string> GetEligibleBankQueues(int creditScore, int historyLength, int loanAmount)
+        public IList<IBankConnection> GetEligibleBankQueues(BankLoanCriteria bankLoanCriteria)
         {
-            var eligibleBanks = new List<string>();
+            var eligibleBanks = new List<IBankConnection>();
             foreach (var bankConnection in banks)
             {
-                if (bankConnection.CanHandleLoanRequest(creditScore, historyLength, loanAmount))
+                if (bankConnection.CanHandleLoanRequest(bankLoanCriteria))
                 {
-                    eligibleBanks.Add(bankConnection.EndpointName);
+                    eligibleBanks.Add(bankConnection);
                 }
             }
 

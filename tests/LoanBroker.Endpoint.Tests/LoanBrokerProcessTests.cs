@@ -94,7 +94,6 @@ namespace LoanBroker.Endpoint.Tests
                 Assert.AreEqual("123", aggRequest.LoanQuoteId);
                 Assert.AreEqual(123, aggRequest.Ssn);
                 Assert.AreEqual(800, aggRequest.CreditScore);
-                Assert.AreEqual(20, aggRequest.HistoryLength);
                 Assert.AreEqual(10000, aggRequest.LoanAmount);
                 Assert.AreEqual(15, aggRequest.LoanTerm);
             }

@@ -131,7 +131,6 @@ namespace LoanTestClient
                 LoanQuoteId = loanQuoteId,
                 Ssn = GenerateSsn(),
                 CreditScore = 500 + Random.Next(400),
-                HistoryLength = Random.Next(80),
                 LoanAmount = Random.Next(100),
                 LoanTerm = LoanTerms[Random.Next(LoanTerms.Length)]
             };
