@@ -27,7 +27,7 @@ namespace BankGateway.Endpoint.Tests
 
             IBankConnectionManager bankConnectionManager = new BankConnectionManager(banks);
             var bankLoanCriteria = new BankLoanCriteria(1, 1, 1);
-            IList<IBankConnection> bankQueues = bankConnectionManager.GetEligibleBankQueues(bankLoanCriteria);
+            IList<IBankConnection> bankQueues = bankConnectionManager.GetEligibleBankConnections(bankLoanCriteria);
 
             Assert.AreEqual(1, bankQueues.Count);
             Assert.AreEqual("YesBank", bankQueues.First().BankName);

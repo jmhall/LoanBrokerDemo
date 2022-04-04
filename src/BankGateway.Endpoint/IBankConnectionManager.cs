@@ -2,6 +2,6 @@ namespace BankGateway.Endpoint
 {
     public interface IBankConnectionManager
     {
-        public IList<IBankConnection> GetEligibleBankQueues(BankLoanCriteria bankLoanCriteria);
+        public IList<IBankConnection> GetEligibleBankConnections(BankLoanCriteria bankLoanCriteria);
     }
 }

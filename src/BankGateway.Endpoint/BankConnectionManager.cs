@@ -19,7 +19,7 @@ namespace BankGateway.Endpoint
             banks = bankList;
         }
 
-        public IList<IBankConnection> GetEligibleBankQueues(BankLoanCriteria bankLoanCriteria)
+        public IList<IBankConnection> GetEligibleBankConnections(BankLoanCriteria bankLoanCriteria)
         {
             var eligibleBanks = new List<IBankConnection>();
             foreach (var bankConnection in banks)

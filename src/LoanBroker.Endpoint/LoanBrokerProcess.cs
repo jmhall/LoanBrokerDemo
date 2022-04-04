@@ -59,6 +59,7 @@ namespace LoanBroker.Endpoint
                 LoanQuoteId = Data.LoanQuoteId,
                 Ssn = Data.LoanQuoteRequest?.Ssn ?? 0,
                 CreditScore = message.CreditScore,
+                HistoryLength = message.HistoryLength,
                 LoanAmount = Data.LoanQuoteRequest?.LoanAmount ?? 0,
                 LoanTerm = Data.LoanQuoteRequest?.LoanTerm ?? 0
             };

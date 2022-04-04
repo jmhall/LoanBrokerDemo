@@ -12,5 +12,10 @@ namespace BankGateway.Endpoint
             HistoryLength = historyLength;
             LoanAmount = loanAmount;
         }
+
+        public override string ToString()
+        {
+            return $"{nameof(CreditScore)}: {CreditScore}, {nameof(HistoryLength)}: {HistoryLength}, {nameof(LoanAmount)}: {LoanAmount}";
+        }
     }
 }
