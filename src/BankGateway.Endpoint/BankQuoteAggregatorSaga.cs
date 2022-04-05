@@ -9,5 +9,9 @@ namespace BankGateway.Endpoint
         public List<BankQuoteRequest> SentBankQuoteRequests { get; set; } = new List<BankQuoteRequest>();
         public List<BankQuoteReply> ReceivedBankQuoteReplies {get;set;} = new List<BankQuoteReply>();
         public bool BankQuoteAggregatorTimeout { get; set; }
+
+        public bool RequestComplete {
+            get => BankQuoteAggregatorTimeout || (SentBankQuoteRequests.Count() == ReceivedBankQuoteReplies.Count());
+        }
     }
 }

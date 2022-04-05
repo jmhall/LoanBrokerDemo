@@ -13,7 +13,6 @@ namespace BankGateway.Endpoint
     {
         private static ILog _log = LogManager.GetLogger<BankQuoteAggregator>();
         private readonly IBankConnectionManager _bankConnectionManager;
-
         public const int DefaultBankAggregatorTimeoutSeconds = 20;
 
         public BankQuoteAggregator(IBankConnectionManager bankConnectionManager)
@@ -59,29 +58,31 @@ namespace BankGateway.Endpoint
                 TimeSpan.FromSeconds(DefaultBankAggregatorTimeoutSeconds),
                 new BankQuoteAggregatorTimeout() { LoanQuoteId = message.LoanQuoteId });
 
+            await CheckCompleteAsync(context);
+
             return;
         }
 
-        public Task Handle(BankQuoteReply message, IMessageHandlerContext context)
+        public async Task Handle(BankQuoteReply message, IMessageHandlerContext context)
         {
             _log.Info($"Received BankQuoteReply for LoanQuoteId: {message.LoanQuoteId}, BankQuoteId: {message.BankQuoteId} ");
 
             Data.ReceivedBankQuoteReplies.Add(message);
 
-            CheckComplete();
+            await CheckCompleteAsync(context);
 
-            return Task.CompletedTask;
+            return;
         }
 
-        public Task Timeout(BankQuoteAggregatorTimeout state, IMessageHandlerContext context)
+        public async Task Timeout(BankQuoteAggregatorTimeout state, IMessageHandlerContext context)
         {
             _log.Info($"Received Timeout for LoanQuoteId: {state.LoanQuoteId}");
 
             Data.BankQuoteAggregatorTimeout = true;
 
-            CheckComplete();
+            await CheckCompleteAsync(context);
 
-            return Task.CompletedTask;
+            return;
         }
 
         protected override void ConfigureHowToFindSaga(SagaPropertyMapper<BankQuoteAggregatorSaga> mapper)
@@ -92,16 +93,34 @@ namespace BankGateway.Endpoint
                 .ToSaga(saga => saga.LoanQuoteId);
         }
 
-        private void CheckComplete()
+        private async Task CheckCompleteAsync(IMessageHandlerContext context)
         {
-            bool complete = Data.SentBankQuoteRequests.Count == Data.ReceivedBankQuoteReplies.Count
-                || Data.BankQuoteAggregatorTimeout;
+            _log.Debug($"CheckComplete: {Data.RequestComplete}");
 
-            if (complete)
+            if (Data.RequestComplete)
             {
                 _log.Info($"Saga complete for LoanQuoteId: {Data.LoanQuoteId}");
                 _log.Info($"Data.SentBankQuoteRequests: {Data.SentBankQuoteRequests.Count}, Data.ReceivedBankQuoteReplies.Count: {Data.SentBankQuoteRequests}");
                 _log.Info($"Data.BankQuoteAggregatorTimeout: {Data.BankQuoteAggregatorTimeout}");
+
+                var reply = new AggregatedBankQuoteReply()
+                {
+                    LoanQoteId = Data.LoanQuoteId,
+                };
+
+                var individualReplies = Data.ReceivedBankQuoteReplies.
+                    Select(x =>
+                        new IndividualBankQuoteReply()
+                        {
+                            ErrorCode = x.ErrorCode,
+                            BankQuoteId = x.BankQuoteId,
+                            InterestRate = x.InterestRate
+                        }
+                    );
+
+                reply.IndividualBankQuoteReplies.AddRange(individualReplies);
+
+                await ReplyToOriginator(context, reply);
 
                 MarkAsComplete();
             }
