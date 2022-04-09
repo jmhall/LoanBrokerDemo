@@ -147,6 +147,61 @@ namespace BankGateway.Endpoint.Tests
             {
                 Assert.AreEqual("123", convertedMessage.LoanQuoteId);
             }
-        }       
+        }
+
+        [Test]
+        public async Task LastBankQuoteReplyCompletesSaga()
+        {
+            // Arrange - saga data with existing sent requests
+            var bankQuoteAggregator = new BankQuoteAggregator(_mockBankConnectionManager.Object);
+
+            var bankQuoteRequest1 = new BankQuoteRequest()
+            {
+                LoanQuoteId = "123"
+            };
+            var bankQuoteRequest2 = new BankQuoteRequest()
+            {
+                LoanQuoteId = "123"
+            };
+
+            var sagaData = new BankQuoteAggregatorSaga()
+            {
+                LoanQuoteId = "123",
+                SentBankQuoteRequests = new List<BankQuoteRequest>() {bankQuoteRequest1, bankQuoteRequest2}
+            };
+            sagaData.Originator = "test"; // must set for testing purposes
+            bankQuoteAggregator.Data = sagaData;
+
+            var bankQuoteReply1 = new BankQuoteReply()
+            {
+                LoanQuoteId = "123",
+                BankQuoteId = "1"
+            };
+            var bankQuoteReply2 = new BankQuoteReply()
+            {
+                LoanQuoteId = "123",
+                BankQuoteId = "2"
+            };
+
+            // Act - invoke handler
+            var testingContext = new TestableMessageHandlerContext();
+            await bankQuoteAggregator.Handle(bankQuoteReply1, testingContext);
+
+            // Shouldn't be complete yet
+            Assert.False(sagaData.RequestComplete);
+
+            // Shouldn't have sent aggregated reply yet
+            var sentAggregatedReplies = testingContext.RepliedMessages.Where(x => x.Message.GetType() == typeof(AggregatedBankQuoteReply));
+            Assert.AreEqual(0, sentAggregatedReplies.Count());
+
+            await bankQuoteAggregator.Handle(bankQuoteReply2, testingContext);
+
+            // Should be complete now
+            Assert.True(sagaData.RequestComplete);
+
+            // Should have sent aggregated reply
+            sentAggregatedReplies = testingContext.RepliedMessages.Where(x => x.Message.GetType() == typeof(AggregatedBankQuoteReply));
+            Assert.AreEqual(1, sentAggregatedReplies.Count());
+        }
     }
 }
